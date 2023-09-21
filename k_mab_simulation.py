@@ -216,12 +216,6 @@ if __name__ == "__main__":
         method=Method.UCB,
         num_steps=num_steps,
     )
-    print("Actions:", bandit_problem._actions)
-    print("Best action:", bandit_problem.best_action)
-    bandit_problem.run()
-    print(bandit_problem.rewards)
-    print(bandit_problem.best_action_taken)
-
 
     # # eps = 0 optimistic values
     # s = Simulation(
