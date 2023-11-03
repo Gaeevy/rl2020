@@ -12,3 +12,4 @@ secrets.txt
 .idea
 env
 venv
+.ipynb_checkpoints/
