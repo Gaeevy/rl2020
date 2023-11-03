@@ -58,6 +58,48 @@ def run_epsilon_greedy_simulation(num_steps: int = 1000, num_sim: int = 2000):
     plot_simulation_results(_simulations, _rewards, _best_action_taken)
 
 
+def run_optimistic_initial_values_simulation(num_steps: int = 1000, num_sim: int = 2000):
+    """Run simulation with optimistic initial values for initial value 5. Comparison with
+    eps-greedy method for eps 0.1
+
+    Reproduces the results from Figure 2.3 of Sutton and Barto's book
+    """
+    _simulations = []
+    _rewards = []
+    _best_action_taken = []
+
+    # Optimistic initial values with initial value 5 and eps=0 and weighting method const
+    s = Simulation(
+        rng=RNG,
+        method=Method.EPS_GREEDY,
+        weighting_method=WeightingMethod.CONST,
+        eps=0,
+        initial_value=5,
+        num_steps=num_steps,
+        num_sim=num_sim,
+    )
+    s.run()
+    _simulations.append(s.name)
+    _rewards.append(s.avg_rewards)
+    _best_action_taken.append(s.avg_best_action_taken)
+
+    # Epsilon-greedy with eps=0.1 and weighting method const
+    s = Simulation(
+        rng=RNG,
+        method=Method.EPS_GREEDY,
+        weighting_method=WeightingMethod.CONST,
+        eps=0.1,
+        num_steps=num_steps,
+        num_sim=num_sim,
+    )
+    s.run()
+    _simulations.append(s.name)
+    _rewards.append(s.avg_rewards)
+    _best_action_taken.append(s.avg_best_action_taken)
+
+    plot_simulation_results(_simulations, _rewards, _best_action_taken)
+
+
 def run_ucb_simulation(num_steps: int = 1000, num_sim: int = 2000):
     """Run simulation with UCB method for c 2. Comparison with eps-greedy method for eps 0.1
 
@@ -72,46 +114,6 @@ def run_ucb_simulation(num_steps: int = 1000, num_sim: int = 2000):
         rng=RNG,
         method=Method.UCB,
         ucb_c=2,
-        num_steps=num_steps,
-        num_sim=num_sim,
-    )
-    s.run()
-    _simulations.append(s.name)
-    _rewards.append(s.avg_rewards)
-    _best_action_taken.append(s.avg_best_action_taken)
-
-    # Epsilon-greedy with eps=0.1
-    s = Simulation(
-        rng=RNG,
-        method=Method.EPS_GREEDY,
-        eps=0.1,
-        num_steps=num_steps,
-        num_sim=num_sim,
-    )
-    s.run()
-    _simulations.append(s.name)
-    _rewards.append(s.avg_rewards)
-    _best_action_taken.append(s.avg_best_action_taken)
-
-    plot_simulation_results(_simulations, _rewards, _best_action_taken)
-
-
-def run_optimistic_initial_values_simulation(num_steps: int = 1000, num_sim: int = 2000):
-    """Run simulation with optimistic initial values for initial value 5. Comparison with
-    eps-greedy method for eps 0.1
-
-    Reproduces the results from Figure 2.3 of Sutton and Barto's book
-    """
-    _simulations = []
-    _rewards = []
-    _best_action_taken = []
-
-    # Optimistic initial values with initial value 5 and eps=0
-    s = Simulation(
-        rng=RNG,
-        method=Method.EPS_GREEDY,
-        eps=0,
-        initial_value=5,
         num_steps=num_steps,
         num_sim=num_sim,
     )
@@ -168,7 +170,12 @@ def run_gradient_simulation(num_steps: int = 1000, num_sim: int = 2000):
 
 
 if __name__ == "__main__":
-    # run_epsilon_greedy_simulation(
+    run_epsilon_greedy_simulation(
+        num_steps=1000,
+        num_sim=2000,
+    )
+
+    # run_optimistic_initial_values_simulation(
     #     num_steps=1000,
     #     num_sim=2000,
     # )
@@ -178,13 +185,8 @@ if __name__ == "__main__":
     #     num_sim=2000,
     # )
 
-    # run_optimistic_initial_values_simulation(
+    # run_gradient_simulation(
     #     num_steps=1000,
     #     num_sim=2000,
     # )
-
-    run_gradient_simulation(
-        num_steps=1000,
-        num_sim=2000,
-    )
 
